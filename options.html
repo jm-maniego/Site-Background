@@ -1,0 +1,111 @@
+<html>
+<head>
+  <title>SiteBG Setter Options</title>
+  <script src='jquery-1.11.1.js'></script>
+  <script src='options.js'></script>
+  <script src='common.js'></script>
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div id="loader" class="loader centered" style="display: none">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="container">
+    <div class="form">
+      <div class="row cf">
+        <h3>Search</h3>
+      </div>
+      <div name='searchType' data-type='radiogroup' type class="radio-group">
+        <div class="row cf">
+          <div class="column">
+            <div id="radio-random" name="searchType" data-type="input" class="radio"></div>
+          </div>
+          <div class="column">
+            <div>
+              <label for="radio-random">Random</label>
+            </div>
+          </div>
+        </div>
+        <div class="row cf">
+          <div class="column">
+            <div id='radio-keyword' name="searchType" data-type="input" class="radio"></div>
+          </div>
+          <div class="column">
+            <label for="radio-keyword">Keyword</label>
+          </div>
+        </div>
+        <div class="row cf">
+          <textarea name="q" data-type="input" id="search-keyword" class="w100"></textarea>
+        </div>
+      </div>
+      <hr/>
+      <div class="row cf">
+        <h3>Categories</h3>
+      </div>
+      <div class="row cf" data-enabled-for='radio-keyword'>
+        <div class="column">
+          <div id="checkbox-general" name="categories" data-type="input" class="checkbox"></div>
+        </div>
+        <div class="column">
+          <label for="checkbox-general">General</label>
+        </div>
+        <div class="column">
+          <div id="checkbox-anime" name="categories" data-type="input" class="checkbox"></div>
+        </div>
+        <div class="column">
+          <label for="checkbox-anime">Anime</label>
+        </div>
+        <div class="column">
+          <div id="checkbox-people" name="categories" data-type="input" class="checkbox"></div>
+        </div>
+        <div class="column">
+          <label for="checkbox-people">People</label>
+        </div>
+      </div>
+      <hr/>
+      <div class="row cf">
+        <h3>Purity</h3>
+      </div>
+      <div class="row cf" data-enabled-for='radio-keyword'>
+        <div class="column">
+          <div id="checkbox-sfw" name="purity" data-type="input" class="checkbox"></div>
+        </div>
+        <div class="column">
+          <label for="checkbox-sfw">SFW</label>
+        </div>
+        <div class="column">
+          <div id="checkbox-sketchy" name="purity" data-type="input" class="checkbox"></div>
+        </div>
+        <div class="column">
+          <label for="checkbox-sketchy">Sketchy</label>
+        </div>
+        <div class="column">
+          <div id="checkbox-nsfw" name="purity" data-type="input" class="checkbox"></div>
+        </div>
+        <div class="column">
+          <label for="checkbox-nsfw">NSFW*</label>
+        </div>
+      </div>
+      <div class="row cf">
+        <span class="note">(* Wallhaven login required )</span>
+      </div>
+      <hr/>
+      <div class="row cf">
+        <div class="column">
+          <button disabled id="save">Save</button>
+        </div>
+        <div class="column">
+          <button class="light" id="cancel">Cancel</button>
+        </div>
+        <div class="column">
+          <button class="lighter" id="set-to-default">Set to default</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

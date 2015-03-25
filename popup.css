@@ -1,0 +1,48 @@
+body {
+  width: 400px;
+}
+
+.container {
+  width: 84%;
+  margin: 0 auto;
+}
+
+.slider-value {
+  margin-top: 4px;
+  font-size: .7rem;
+  height: 1.2rem;
+  width: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  word-wrap: normal;
+  text-overflow: hidden;
+  overflow:hidden;
+  background-color: gray;
+  color: #F5F5F5;
+  border: #1F1F1F 1px solid;
+}
+
+.w20 {
+  width: 20%;
+}
+
+.w25 {
+  width: 25%;
+}
+
+.option-name {
+  font-weight: bold;
+  color: #636363;
+}
+
+#optionsBtn {
+  background: url('options.png') no-repeat;
+  background-size: cover;
+  width: 1.7rem;
+  height: 1.7rem;
+  cursor: pointer;
+}
+
+#optionsBtn:hover {
+  opacity: 1;
+}

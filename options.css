@@ -1,0 +1,142 @@
+html, body {
+  min-width: 100%;
+  min-height: 100%;
+  padding: 0 !important;
+}
+
+.container {
+  margin: auto;
+  padding-right: 3rem;
+  width: 48%;
+  height: 100%;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.checkbox,
+.radio {
+  width: 26px;
+  height: 26px;
+  background: url("options-spritesheet.png") no-repeat;
+  background-size: 200%;
+  cursor: pointer;
+  background-color: #FDFDFD;
+}
+
+.checkbox[disabled],
+.radio[disabled],
+textarea[disabled] {
+  background-color: #BABABA;
+}
+
+.checkbox {
+  background-position: -26px -26px;
+}
+
+.radio {
+  background-position: 0 0;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: .7rem;
+  padding: .5rem;
+  height: 2rem;
+  border-radius: 4px;
+  color: #505050;
+  border: 2px solid #505050;
+  background-color: #FDFDFD;
+}
+
+hr {
+  border 0;
+  border-top: #D1D1D1 1px solid;
+}
+
+label[for] {
+  cursor: pointer;
+}
+
+label[disabled],
+button[disabled],
+.checkbox[disabled],
+.radio[disabled],
+textarea[disabled] {
+  cursor: default !important;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.note {
+  color: #9E9E9E !important;
+}
+
+#save,
+#set-to-default,
+#cancel {
+  padding: 5px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: 0;
+  border-left: 1px solid #7A7A7A;
+  border-right: 1px solid #7A7A7A;
+  border-bottom: 2px solid #505050;
+  border-radius: 4px;
+  color: #F5F5F5;
+  background-color: gray;
+  cursor: pointer;
+}
+
+.overlay {
+  -webkit-filter: blur(8px);
+  pointer-events: none;
+  cursor: default !important;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loader {
+  text-align: center;
+}
+
+.loader span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+  margin: 50px auto;
+  background: black;
+  border-radius: 50px;
+  -webkit-animation: loader 0.9s infinite alternate;
+}
+
+.loader span:nth-of-type(2) {
+  -webkit-animation-delay: 0.3s;
+}
+
+.loader span:nth-of-type(3) {
+  -webkit-animation-delay: 0.6s;
+}
+
+@-webkit-keyframes loader {
+  0% {
+  width: 10px;
+  height: 10px;
+  opacity: 0.9;
+  -webkit-transform: translateY(0);
+  }
+  100% {
+  width: 24px;
+  height: 24px;
+  opacity: 0.1;
+  -webkit-transform: translateY(-21px);
+  }
+}

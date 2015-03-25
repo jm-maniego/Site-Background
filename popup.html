@@ -1,0 +1,50 @@
+<html>
+<head>
+  <script src='common.js'></script>
+  <script src='jquery-1.11.1.js'></script>
+  <script src='jquery-ui.min.js'></script>
+  <script src='popup.js'></script>
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="jquery-ui.min.css">
+  <link rel="stylesheet" href="jquery-ui.structure.min.css">
+  <link rel="stylesheet" href="jquery-ui.theme.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="row cf">
+      <div class="column float-opposite">
+        <div id="optionsBtn" class="lighter">
+        </div>
+      </div>
+      <div class="column float-opposite">
+        <div id="background-switch" data-value='1' class="on-off lighter">
+            <div class="r0"></div>
+            <span>ON</span>
+            <span>OFF</span>
+        </div>
+      </div>
+    </div>
+    <div class="row cf">
+      <div class="column w20">
+        <span class='option-name'>Blur</span>
+      </div>
+      <textarea id="wallpaperBlur-value" class="column slider-value move-left"></textarea>
+      <span id="wallpaperBlur-range" class="column">( 0-100 )</span>
+    </div>
+    <div class='row'>
+      <div id="wallpaperBlur-slider"></div>
+    </div>
+    <div class="row cf">
+      <div class="column move-left w20">
+        <span class='option-name'>Opacity</span>
+      </div>
+      <textarea id="wallpaperOpacity-value" class="column slider-value move-left"></textarea>
+      <span id="wallpaperOpacity-range" class="column">( 0-100 )</span>
+    </div>
+    <div class='row'>
+      <div id="wallpaperOpacity-slider"></div>
+    </div>
+  </div>
+</body>
+</html>
