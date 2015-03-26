@@ -1,16 +1,16 @@
 var convertObj = {true: 1, false: 0};
-var changed = 0;
-var addRemove = {false: 'attr', true:'removeAttr'}
+var changed    = 0;
+var addRemove  = {false: 'attr', true:'removeAttr'}
 
 function CustomForm($form) {
   this.$form = $form
 };
 
 CustomForm.prototype.serialize = function() {
-  var $radioButtons = this.$form.find('div.radio[data-type=input][selected]');
+  var $radioButtons    = this.$form.find('div.radio[data-type=input][selected]');
   var $checkboxButtons = this.$form.find('div.checkbox[data-type=input]');
-  var $textareas = this.$form.find('textarea[data-type=input]');
-  var returnObj = {}
+  var $textareas       = this.$form.find('textarea[data-type=input]:not([disabled])');
+  var returnObj        = {}
   var key;
   var $el;
 
@@ -63,11 +63,11 @@ function init() {
 }
 
 $(function() {
-  var $form = new CustomForm($('.form'))
+  $form          = new CustomForm($('.form'))
   var $searchKeyword = $('#search-keyword');
-  var $save = $('#save');
-  var $loader = $('#loader');
-  var $container = $('.container');
+  var $save          = $('#save');
+  var $loader        = $('#loader');
+  var $container     = $('.container');
 
   $('.checkbox').checkbox()
   $('.radio-group').radioGroup()
@@ -106,29 +106,32 @@ $(function() {
   })
 
   $('#set-to-default').click(function() {
-    $container.addClass('overlay');
-    config.setToDefault('query', function() {
-      $loader.show();
-      config.setToDefault('search', function() {
-        init();
-        getWallpapers(false, {
-          complete: function() {
-            $container.removeClass('overlay')
-            $loader.hide();
-          }
+    if (confirm($(this).data('confirm'))) {
+      $container.addClass('overlay');
+      config.setToDefault('query', function() {
+        $loader.show();
+        config.setToDefault('search', function() {
+          init();
+          getWallpapers(false, {
+           complete: function() {
+              $container.removeClass('overlay')
+              $loader.hide();
+            }
+          });
         });
       });
-    });
+    }
   })
   init();
 
   $('div[name=searchType]').on('change', function(e) {
-    var value = parseInt($(this).radioGroup('value'))
-    var isKeywordOption = $('#radio-keyword').isSelected();
+    var value               = parseInt($(this).radioGroup('value'))
+    var isKeywordOption     = $('#radio-specific').isSelected();
+    var disabledForSpecific = $('*[data-disabled-for=radio-specific]')
+
     $searchKeyword.prop('disabled', !isKeywordOption);
-    var enabledForKeyword = $('*[data-enabled-for=radio-keyword]')
-    enabledForKeyword.find('*[data-type=input]')[addRemove[isKeywordOption]]('disabled', '');
-    enabledForKeyword.find('label[for]')[addRemove[isKeywordOption]]('disabled', '');
+    //enabledForKeyword.find('*[data-type=input]')[addRemove[isKeywordOption]]('disabled', '');
+    //enabledForKeyword.find('label[for]')[addRemove[isKeywordOption]]('disabled', '');
     if (isKeywordOption) {
       $searchKeyword.focus();
     }

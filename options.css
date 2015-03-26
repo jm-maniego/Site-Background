@@ -140,3 +140,12 @@ textarea[disabled] {
   -webkit-transform: translateY(-21px);
   }
 }
+
+a {
+ color: #9E9E9E 
+}
+
+fieldset {
+  border: 0;
+  padding-left: 2em;
+}

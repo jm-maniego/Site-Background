@@ -3,12 +3,12 @@ function getRandomInt(min, max) {
 }
 
 storageGet(function(storage){
-  var wallpapers = storage.wallpapers;
-  var wallpaperBlur = storage.wallpaperBlur;
+  var wallpapers       = storage.wallpapers;
+  var wallpaperBlur    = storage.wallpaperBlur;
   var wallpaperOpacity = storage.wallpaperOpacity;
-  var random_index = getRandomInt(0, wallpapers.length)
-  var url = wallpapers[random_index].url
-  var display = {1: "", 0: "none"}[storage.set_bg];
+  var random_index     = getRandomInt(0, wallpapers.length)
+  var url              = wallpapers[random_index].url
+  var display          = {1: "", 0: "none"}[storage.set_bg];
 
   var div = $('<div id="sitebg-extension">').css({
     "width": "100%",
