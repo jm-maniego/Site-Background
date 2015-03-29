@@ -10,6 +10,7 @@ CustomForm.prototype.serialize = function() {
   var $radioButtons    = this.$form.find('div.radio[data-type=input][selected]:not([disabled])');
   var $checkboxButtons = this.$form.find('div.checkbox[data-type=input]:not([disabled])');
   var $textareas       = this.$form.find('textarea[data-type=input]:not([disabled])');
+  var $fileInputs      = this.$form.find('input[type=file]:not([disabled])');
   var returnObj        = {}
   var key;
   var $el;
@@ -34,6 +35,9 @@ CustomForm.prototype.serialize = function() {
     key = $el.attr('name');
     returnObj[key] = $el.get(0).value;
   });
+  $fileInputs.each(function(i, el) {
+
+  })
 
   return returnObj
 }
@@ -135,14 +139,14 @@ $(function() {
 
   $('#imageFile').on("change", function(e) {
     console.log("Input file changed.")
-
-    var files = e.target.files;
-    var file, result;
     var $imageResults = $('#image-results');
+    var $this = $(this);
+    files = new CustomFile(e.target.files);
+
     $imageResults.empty();
-    for (var i = 0; i < files.length; i++) {
-      file = files[i];
-      fileDataUrl(file, function(fileReader) {
+
+    files.toDataUrl({
+      convert: function(fileReader) {
         result = fileReader.result;
         $imageResults.append($("<img>", {
           src: result,
@@ -150,9 +154,11 @@ $(function() {
           width: "20%",
           class: "imageFile"
         }))
-      })
-    }
-
+      },
+      complete: function(dataUrls) {
+        $this.data('value', dataUrls);
+      }
+    })
   })
   init();
 

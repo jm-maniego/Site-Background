@@ -160,12 +160,30 @@ function getWallpapers(secure, options) {
   })
 }
 
-function fileDataUrl(file, callback) {
-  console.log("Converting file to data url...")
-  var fileReader = new FileReader;
-  fileReader.addEventListener('load', function(e) {
-    console.log("Converting " + file.name + "...");
-    callback && callback(this, e.target)
-  })
-  fileReader.readAsDataURL(file)
+function CustomFile(files) {
+  this.dataUrls = {}
+  this.files = files || {}
+}
+
+CustomFile.prototype = {
+  toDataUrl: function(options, current_index) {
+    console.log("Converting file to data url...")
+    var fileReader, file, self=this;
+    current_index = typeof current_index == "undefined" ? 0 : current_index
+    fileReader = new FileReader;
+    file       = self.files[current_index];
+    if (file && file.type.match('image')) {
+      fileReader.addEventListener('loadend', function(e) {
+        console.log("Converting " + file.name + "...");
+        self.dataUrls[current_index] = fileReader.result
+        options.convert && options.convert.call(this, fileReader)
+        self.toDataUrl(options, current_index+1)
+        if (current_index+1 == self.files.length) {
+          console.log("Conversion complete.")
+          options.complete && options.complete.call(this, self.dataUrls)
+        }
+      })
+      fileReader.readAsDataURL(file)
+    }
+  }
 }
