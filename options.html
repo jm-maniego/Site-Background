@@ -14,93 +14,164 @@
     <span></span>
   </div>
 
-  <div class="container">
-    <div class="form">
-      <div class="row cf">
-        <h3>Search</h3>
-      </div>
-      <div class="row cf">
-        <div class="column">
-          <div id="checkbox-random" name="searchType" data-type="input" class="checkbox"></div>
-        </div>
-        <div class="column">
-          <div>
-            <label for="checkbox-random">Random</label>
+  <div class="row cf">
+    <div class="column w50" style="border-right: 1px solid gray;">
+      <div class="container">
+        <div id="searchForm" class="form">
+          <div class="row cf">
+            <h3>Search</h3>
           </div>
-        </div>
-      </div>
-      <div class="row cf">
-        <div class="column">
-          <div id='checkbox-keyword' name="searchType" data-type="input" class="checkbox"></div>
-        </div>
-        <div class="column">
-          <label for="checkbox-keyword">With Parameters</label>
-        </div>
-      </div>
-      <fieldset>
-       <div class="row cf">
-        <textarea name="q" data-type="input" id="search-keyword" class="w100" placeholder="Enter keyword (e.g. kitten, puppy, galaxy)"></textarea>
-      </div>
-  
-      <div class="row cf" data-disabled-for='radio-specific'>
-        <div class="column third">
-          <div class="column">
-            <div id="checkbox-general" name="categories" data-type="input" class="checkbox"></div>
+          <div name='image_from' data-type='radiogroup' type class="radio-group">
+            <div class="row cf">
+              <div class="column">
+                <div id="radio-specific" name="image_from" data-type="input" class="radio"></div>
+              </div>
+              <div class="column">
+                <div>
+                  <label for="radio-specific">From local file/s or url</label>
+                  <input type="file" id="imageFile" multiple>
+                </div>
+              </div>
+            </div>
+            <div class="row cf">
+              <div class="column w100">
+                <textarea name="specifiedUrl" data-type="input" id="specific-keyword" class="w100" placeholder="Enter file:/// or http:// url"></textarea>
+              </div>
+            </div>
+            <div class="row cf">
+              <div class="column">
+                <div id='radio-wallhaven' name="image_from" data-type="input" class="radio"></div>
+              </div>
+              <div class="column">
+                <label for="radio-wallhaven">From Wallhaven</label>
+              </div>
+            </div>
           </div>
-          <div class="column">
-            <label for="checkbox-general">General</label>
-          </div>
-        </div>
-        <div class="column third">
-          <div class="column">
-            <div id="checkbox-anime" name="categories" data-type="input" class="checkbox"></div>
-          </div>
-          <div class="column">
-            <label for="checkbox-anime">Anime</label>
-          </div>
-        </div>
-        <div class="column">
-          <div id="checkbox-people" name="categories" data-type="input" class="checkbox"></div>
-        </div>
-        <div class="column">
-          <label for="checkbox-people">People</label>
-        </div>
-      </div>
+          <fieldset>
+            <div class="row cf">
+              <div class="column">
+                <div id="checkbox-random" name="searchType" data-type="input" class="checkbox"></div>
+              </div>
+              <div class="column">
+                <div>
+                  <label for="checkbox-random">Random</label>
+                </div>
+              </div>
+            </div>
+            <div class="row cf">
+              <div class="column">
+                <div id='checkbox-withParameters' name="withParameters" data-type="input" class="checkbox"></div>
+              </div>
+              <div class="column">
+                <label for="checkbox-withParameters">With Parameters</label>
+              </div>
+            </div>
+            <fieldset data-enabled-for="checkbox-withParameters">
+              <div class="row cf">
+                <h4><label for="search-keyword">Keyword</label></h4>
+              </div>
+              <div class="row cf">
+                <div class="column w100">
+                  <textarea name="q" data-type="input" id="search-keyword" class="w100" placeholder="Enter keyword (e.g. kitten, puppy, galaxy)"></textarea>
+                </div>
+              </div>
 
-      <div class="row cf" data-disabled-for='radio-specific'>
-        <div class="column">
-          <div id="checkbox-sfw" name="purity" data-type="input" class="checkbox"></div>
+              <div class="row cf">
+                <div class="column w100">
+                  <hr>
+                </div>
+                <div class="column w100">
+                  <h4>Categories</h4>
+                </div>
+              </div>
+
+              <div class="row cf">
+                <div class="column w25">
+                  <div class="column">
+                    <div id="checkbox-general" name="categories" data-type="input" class="checkbox"></div>
+                  </div>
+                  <div class="column">
+                    <label for="checkbox-general">General</label>
+                  </div>
+                </div>
+                <div class="column w25">
+                  <div class="column">
+                    <div id="checkbox-anime" name="categories" data-type="input" class="checkbox"></div>
+                  </div>
+                  <div class="column">
+                    <label for="checkbox-anime">Anime</label>
+                  </div>
+                </div>
+                <div class="column w25">
+                  <div class="column">
+                    <div id="checkbox-people" name="categories" data-type="input" class="checkbox"></div>
+                  </div>
+                  <div class="column">
+                    <label for="checkbox-people">People</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row cf">
+                <div class="column w100">
+                  <hr>
+                </div>
+                <div class="column w100">
+                  <h4>Purity</h4>
+                </div>
+              </div>
+
+              <div class="row cf" data-disabled-for='radio-specific'>
+                <div class="column w25">
+                  <div class="column">
+                    <div id="checkbox-sfw" name="purity" data-type="input" class="checkbox"></div>
+                  </div>
+                  <div class="column">
+                    <label for="checkbox-sfw">SFW</label>
+                  </div>
+                </div>
+                <div class="column w25">
+                  <div class="column">
+                    <div id="checkbox-sketchy" name="purity" data-type="input" class="checkbox"></div>
+                  </div>
+                  <div class="column">
+                    <label for="checkbox-sketchy">Sketchy</label>
+                  </div>
+                </div>
+                <div class="column w25">
+                  <div class="column">
+                    <div id="checkbox-nsfw" name="purity" data-type="input" class="checkbox"></div>
+                  </div>
+                  <div class="column">
+                    <label for="checkbox-nsfw">NSFW*</label>
+                  </div>
+                </div>
+                <div class="column w100">
+                  <span class="note">(* Wallhaven login required <a href="http://alpha.wallhaven.cc" target="_blank">alpha.wallhaven.cc</a> )</span>
+                </div>
+              </div>
+            </fieldset>
+
+          </fieldset>
+
+          <div class="row cf">
+            <div class="column w25 float-opposite">
+              <button class="lighter" id="set-to-default" data-confirm="Set to default?">Set to default</button>
+            </div>
+            <div class="column w25 float-opposite">
+              <button class="light" id="cancel">Cancel</button>
+            </div>
+            <div class="column w25 float-opposite">
+              <button disabled id="save">Save</button>
+            </div>
+          </div>
         </div>
-        <div class="column">
-          <label for="checkbox-sfw">SFW</label>
-        </div>
-        <div class="column">
-          <div id="checkbox-sketchy" name="purity" data-type="input" class="checkbox"></div>
-        </div>
-        <div class="column">
-          <label for="checkbox-sketchy">Sketchy</label>
-        </div>
-        <div class="column">
-          <div id="checkbox-nsfw" name="purity" data-type="input" class="checkbox"></div>
-        </div>
-        <div class="column">
-          <label for="checkbox-nsfw">NSFW*</label>
-        </div>
-      </div> 
-      </fieldset>
-      
-      <div class="row cf">
-        <span class="note">(* Wallhaven login required <a href="http://alpha.wallhaven.cc" target="_blank">alpha.wallhaven.cc</a> )</span>
       </div>
+    </div>
+    <div class="column w50">
       <div class="row cf">
-        <div class="column">
-          <button disabled id="save">Save</button>
-        </div>
-        <div class="column">
-          <button class="light" id="cancel">Cancel</button>
-        </div>
-        <div class="column">
-          <button class="lighter" id="set-to-default" data-confirm="Set to default?">Set to default</button>
+        <div id="image-results">
+
         </div>
       </div>
     </div>

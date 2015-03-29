@@ -1,7 +1,7 @@
 var config = {
   "url": {
-    0: "://alpha.wallhaven.cc/random?",
-    1: "://alpha.wallhaven.cc/search?"
+    0: "://alpha.wallhaven.cc/search?",
+    1: "://alpha.wallhaven.cc/random?"
   },
   "previewUrlPattern": /\.cc\/wallpaper\/([0-9]*)/,
   "default": {
@@ -10,7 +10,9 @@ var config = {
       "wallpaperOpacity": "40"
     },
     "search": {
-      "searchType": "1"
+      "searchType": "1",
+      "withParameters": "1",
+      "image_from": "1"
     },
     "set_bg": {
       "set_bg": "1"
@@ -38,6 +40,7 @@ var config = {
 }
 
 function storageGet(callback) {
+  console.log("Getting storage...")
   chrome.storage.sync.get(callback);
 }
 
@@ -57,27 +60,31 @@ function wallpapersUrl(secure, callback) {
   var protocol  = "http"
   var secureUrl = protocol + {true: "s", false: ''}[secure || false]
   storageGet(function(storage) {
-    var searchType = parseInt(storage.searchType);
-    var paramKeys  = Object.keys(config.default.query);
-    var params     = '';
+    var image_from_int = parseInt(storage.image_from);
+    var specifiedUrl,
+        searchType,
+        withParameters,
+        paramKeys,
+        params;
 
-    // TODO: switch case search type
-    switch(searchType) {
+    switch (image_from_int) {
       case 0:
-      // Random
+        // From File or Url
+        // Check if file:/// or http:///
+        // Convert to data url if file; else leave it alone LOL
+        //specifiedUrl = storage.specifiedUrl
         break;
       case 1:
-      params = $.param(slice(storage, paramKeys))
-      // With keyword
+        // From Wallhaven
+        searchType     = parseInt(storage.searchType);
+        console.log(searchType);
+        withParameters = parseInt(storage.withParameters);
+        paramKeys      = Object.keys(config.default.query);
+        params         = withParameters ? $.param(slice(storage, paramKeys)) : "";
+        url = (secureUrl + config.url[searchType] + params);
         break;
-       case 2:
-      // Specific
-        break; 
     }
 
-    var url        = 'file:///D:/jmImages/[HorribleSubs]%20Assassination%20Classroom%20-%2010%20[1080p].mkv_snapshot_13.40_[2015.03.23_00.16.15].jpg'//secureUrl + config.url[searchType] + params;
-    //callback && callback.call(this, url); 
-    //file:///D:/jmImages/[HorribleSubs]%20Assassination%20Classroom%20-%2010%20[1080p].mkv_snapshot_13.40_[2015.03.23_00.16.15].jpg
 
     callback && callback.call(this, url);
   })
@@ -101,31 +108,64 @@ function getWallpaperId(url, from) {
   return url.match({'preview': config.previewUrlPattern}[from])[1]
 }
 
-function Wallpaper(id) {
-  this.url = "http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-"+ id +".jpg"
+function Wallpaper(id, image_from_int) {
+  image_from_int = typeof image_from_int == 'undefined' ? 1 : image_from_int
+  switch (image_from_int) {
+    case 0:
+      this.url = id // actually, url LOL
+      break;
+    case 1:
+      this.url = "http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-"+ id +".jpg"
+      break;
+  }
 }
 
 function getWallpapers(secure, options) {
+  console.log("Getting Wallpapers")
   var options = options || {}
   var secure = secure || false;
-  wallpapersUrl(secure, function(url) {
-    // TODO: Check if local file
-    console.log('ige')
-    $.ajax({
-      url: url,
-      type: "GET",
-      success: function(response) {
-        var wallpapers = $(response).find('.preview').map(function(){
-            return (new Wallpaper(getWallpaperId(this.href, 'preview')));
-          }).get()
-        console.log('hello',wallpapers)
-        storageSet({"wallpapers": wallpapers}, function() {
-          options.success && options.success.call(this);
+  var files = options.files || [];
+  var file, wallpapers = []
+  storageGet(function(storage) {
+    var image_from_int = parseInt(storage.image_from);
+    switch (image_from_int) {
+      case 0:
+        storageSet({"wallpapers": files}, function() {
+          options.success && options.success.call(this)
         })
-      },
-      complete: function() {
-        options.complete && options.complete.call(this);
-      }
-    })
+        break;
+      case 1:
+        // From Wallhaven
+        console.log("Fetching images from wallhaven...")
+        wallpapersUrl(secure, function(url) {
+          $.ajax({
+            url: url,
+            type: "GET",
+            success: function(response) {
+              wallpapers = $(response).find('.preview').map(function(){
+                  return (new Wallpaper(getWallpaperId(this.href, 'preview')));
+                }).get()
+              storageSet({"wallpapers": wallpapers}, function() {
+                options.success && options.success.call(this);
+              })
+            },
+            complete: function() {
+              console.log("Fetching images complete.")
+              options.complete && options.complete.call(this);
+            }
+          })
+        })
+        break;
+    }
   })
+}
+
+function fileDataUrl(file, callback) {
+  console.log("Converting file to data url...")
+  var fileReader = new FileReader;
+  fileReader.addEventListener('load', function(e) {
+    console.log("Converting " + file.name + "...");
+    callback && callback(this, e.target)
+  })
+  fileReader.readAsDataURL(file)
 }

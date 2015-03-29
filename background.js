@@ -6,11 +6,14 @@ function init() {
     if (!storage.q || !storage.categories || !storage.purity) {
       config.setToDefault("query");
     }
-    if (!storage.search) {
+    if (!storage.searchType || !storage.withParameters) {
       config.setToDefault('search');
     }
     if (!storage.set_bg) {
       config.setToDefault('set_bg');
+    }
+    if (!storage.image_from) {
+      config.setToDefault('image_from');
     }
   })
 }

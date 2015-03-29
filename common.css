@@ -49,7 +49,6 @@ textarea {
 
 .column {
   float: left;
-  margin-right: 1.2rem;
 }
 
 .content-right {
@@ -74,12 +73,22 @@ button {
   opacity: 0.6;
 }
 
-.column.third {
-  width: 33.33%;
+.column.w75 {
+  width: 75%;
 }
+
+.column.w25 {
+  width: 25%;
+}
+
+.column.w50 {
+  width: 50%;
+}
+
 
 .row {
   padding: 5px;
+  padding-top: 0;
   margin-bottom: 5px;
   width: 100%;
 }
@@ -135,4 +144,13 @@ button {
 
 .on-off:hover {
   opacity: 1;
+}
+
+h4 {
+  margin: 0;
+  padding: 0;
+}
+
+div[data-type='input'] {
+  margin-right: 1.2em;
 }

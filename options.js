@@ -7,12 +7,13 @@ function CustomForm($form) {
 };
 
 CustomForm.prototype.serialize = function() {
-  var $radioButtons    = this.$form.find('div.radio[data-type=input][selected]');
-  var $checkboxButtons = this.$form.find('div.checkbox[data-type=input]');
+  var $radioButtons    = this.$form.find('div.radio[data-type=input][selected]:not([disabled])');
+  var $checkboxButtons = this.$form.find('div.checkbox[data-type=input]:not([disabled])');
   var $textareas       = this.$form.find('textarea[data-type=input]:not([disabled])');
   var returnObj        = {}
   var key;
   var $el;
+  var selected;
 
   $radioButtons.each(function(i, el) {
     $el = $(el);
@@ -22,8 +23,10 @@ CustomForm.prototype.serialize = function() {
   });
   $checkboxButtons.each(function(i, el) {
     $el = $(el);
+    selected = !!$el.attr('selected');
     key = $el.attr('name');
-    val = convertObj[!!$el.attr('selected')].toString();
+    val = convertObj[selected].toString();
+
     returnObj[key] = (returnObj[key] || '') + val;
   });
   $textareas.each(function(i, el) {
@@ -40,12 +43,14 @@ function init() {
   var $purity     = $('div[name=purity]');
 
   storageGet(function(storage) {
-    var searchType = parseInt(storage.searchType || config.default.searchType);
+    var searchType    = parseInt(storage.searchType || config.default.search.searchType);
     var searchKeyword = storage.q;
-    var categories = (storage.categories || config.default.query.categories).toString();
-    var purity = (storage.purity || config.default.query.purity).toString();
+    var image_from    = parseInt(storage.image_from || config.default.image_from.image_from);
+    var withParameters= parseInt(storage.withParameters || config.default.search.withParameters);
+    var categories    = (storage.categories || config.default.query.categories).toString();
+    var purity        = (storage.purity || config.default.query.purity).toString();
 
-    $('div[name=searchType]').find('.radio[data-value='+ searchType +']').select()
+    $('div[name=image_from]').find('.radio[data-value='+ image_from +']').select()
 
     $categories.each(function(i) {
       $(this).check(!!parseInt(categories[i]))
@@ -55,9 +60,12 @@ function init() {
       $(this).check(!!parseInt(purity[i]))
     });
 
+    $('#checkbox-random').check(searchType == 1)
+    $('#checkbox-withParameters').check(!!withParameters)
+
     $('#search-keyword').get(0).value = searchKeyword;
 
-    $('#search-keyword').prop('disabled', searchType !== 1);
+    //$('#search-keyword').prop('disabled', searchType !== 1);
     $("#save").attr('disabled', '')
   })
 }
@@ -68,6 +76,7 @@ $(function() {
   var $save          = $('#save');
   var $loader        = $('#loader');
   var $container     = $('.container');
+  var $body          = $('body');
 
   $('.checkbox').checkbox()
   $('.radio-group').radioGroup()
@@ -77,13 +86,14 @@ $(function() {
   })
 
   $save.click(function() {
-    $container.addClass('overlay');
+    $body.addClass('overlay');
     storageSet($form.serialize(), function() {
       $loader.show();
       $save.attr('disabled', '');
       getWallpapers(false, {
+        files: ($("#radio-specific").isSelected() ? $('#imageFile').get(0).files : []),
         complete: function() {
-          $container.removeClass('overlay')
+          $body.removeClass('overlay')
           $loader.hide();
         }
       });
@@ -107,14 +117,14 @@ $(function() {
 
   $('#set-to-default').click(function() {
     if (confirm($(this).data('confirm'))) {
-      $container.addClass('overlay');
+      $body.addClass('overlay');
       config.setToDefault('query', function() {
         $loader.show();
         config.setToDefault('search', function() {
           init();
           getWallpapers(false, {
            complete: function() {
-              $container.removeClass('overlay')
+              $body.removeClass('overlay')
               $loader.hide();
             }
           });
@@ -122,19 +132,46 @@ $(function() {
       });
     }
   })
+
+  $('#imageFile').on("change", function(e) {
+    console.log("Input file changed.")
+
+    var files = e.target.files;
+    var file, result;
+    var $imageResults = $('#image-results');
+    $imageResults.empty();
+    for (var i = 0; i < files.length; i++) {
+      file = files[i];
+      fileDataUrl(file, function(fileReader) {
+        result = fileReader.result;
+        $imageResults.append($("<img>", {
+          src: result,
+          height: "auto",
+          width: "20%",
+          class: "imageFile"
+        }))
+      })
+    }
+
+  })
   init();
 
-  $('div[name=searchType]').on('change', function(e) {
-    var value               = parseInt($(this).radioGroup('value'))
-    var isKeywordOption     = $('#radio-specific').isSelected();
-    var disabledForSpecific = $('*[data-disabled-for=radio-specific]')
+  $('div[name=withParameters]').on('change', function(e) {
+    var $this = $(this);
+    var $this_selected = !!$(this).attr('selected');
 
-    $searchKeyword.prop('disabled', !isKeywordOption);
-    //enabledForKeyword.find('*[data-type=input]')[addRemove[isKeywordOption]]('disabled', '');
-    //enabledForKeyword.find('label[for]')[addRemove[isKeywordOption]]('disabled', '');
-    if (isKeywordOption) {
-      $searchKeyword.focus();
-    }
+    //value               = parseInt($(this).radioGroup('value'))
+    //var isKeywordOption     = $('#radio-specific').isSelected();
+    enabledForWithParams = $('*[data-enabled-for=checkbox-withParameters]')
+
+    //$searchKeyword.prop('disabled', !isKeywordOption);
+    enabledForWithParams.find('*[data-type=input]')[addRemove[$this_selected]]('disabled', '');
+    enabledForWithParams.find('label[for]')[addRemove[$this_selected]]('disabled', '');
+    //if (isKeywordOption) {
+    //  $searchKeyword.focus();
+    //}
+
+
   });
 
   $searchKeyword.keyup(function(e) {

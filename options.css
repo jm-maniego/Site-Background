@@ -5,10 +5,9 @@ html, body {
 }
 
 .container {
-  margin: auto;
-  padding-right: 3rem;
-  width: 48%;
   height: 100%;
+  width: 90%;
+  margin: auto;
 }
 
 .w100 {
@@ -142,10 +141,21 @@ textarea[disabled] {
 }
 
 a {
- color: #9E9E9E 
+ color: #9E9E9E
 }
 
 fieldset {
   border: 0;
+  padding: 0;
+  margin: 0;
   padding-left: 2em;
+}
+
+img.imageFile {
+  margin-right: 5%;
+  margin-bottom: 30px;
+}
+
+.column button {
+  width: 80%;
 }
