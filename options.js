@@ -36,7 +36,10 @@ CustomForm.prototype.serialize = function() {
     returnObj[key] = $el.get(0).value;
   });
   $fileInputs.each(function(i, el) {
-
+    $el = $(el);
+    key = $el.attr('name');
+    val = $el.data('value');
+    returnObj[key] = val;
   })
 
   return returnObj
@@ -53,7 +56,7 @@ function init() {
     var withParameters= parseInt(storage.withParameters || config.default.search.withParameters);
     var categories    = (storage.categories || config.default.query.categories).toString();
     var purity        = (storage.purity || config.default.query.purity).toString();
-
+    var specifiedUrl  = (storage.specifiedUrl || "");
     $('div[name=image_from]').find('.radio[data-value='+ image_from +']').select()
 
     $categories.each(function(i) {
@@ -68,7 +71,7 @@ function init() {
     $('#checkbox-withParameters').check(!!withParameters)
 
     $('#search-keyword').get(0).value = searchKeyword;
-
+    $('#specifiedUrl').val(specifiedUrl)
     //$('#search-keyword').prop('disabled', searchType !== 1);
     $("#save").attr('disabled', '')
   })
@@ -81,6 +84,13 @@ $(function() {
   var $loader        = $('#loader');
   var $container     = $('.container');
   var $body          = $('body');
+  var $radioWallhaven      = $("#radio-wallhaven");
+  var $radioSpecific       = $("#radio-specific");
+  var $radioFile           = $("#radio-file");
+  var $enabledForWallhaven = $('*[data-enabled-for=radio-wallhaven]');
+  var $enabledForWithParams= $('*[data-enabled-for=checkbox-withParameters]');
+  var $enabledForSpecific  = $('*[data-enabled-for=radio-specific]');
+  var $enabledForFile      = $('*[data-enabled-for=radio-file]');
 
   $('.checkbox').checkbox()
   $('.radio-group').radioGroup()
@@ -116,6 +126,8 @@ $(function() {
       if (!$save.attr('disabled')) {
         $save.trigger('click')
       }
+    } else {
+      $(this).trigger('change');
     }
   })
 
@@ -141,13 +153,14 @@ $(function() {
     console.log("Input file changed.")
     var $imageResults = $('#image-results');
     var $this = $(this);
-    files = new CustomFile(e.target.files);
+    var files = new CustomFile(e.target.files);
 
     $imageResults.empty();
 
     files.toDataUrl({
-      convert: function(fileReader) {
+      converted: function(fileReader) {
         result = fileReader.result;
+
         $imageResults.append($("<img>", {
           src: result,
           height: "auto",
@@ -162,29 +175,36 @@ $(function() {
   })
   init();
 
+  $('#imageFrom').on("change", function() {
+    var $this                = $(this);
+    var wallhavenSelected    = $radioWallhaven.isSelected();
+    var specificSelected     = $radioSpecific.isSelected();
+    var fileSelected         = $radioFile.isSelected();
+
+    $enabledForWallhaven.find('*[data-type=input]')[addRemove[wallhavenSelected]]('disabled', '');
+    $enabledForWallhaven.find('label[for]')[addRemove[wallhavenSelected]]('disabled', '');
+    $enabledForSpecific[addRemove[specificSelected]]('disabled', '');
+    $enabledForFile[addRemove[fileSelected]]('disabled', '');
+  })
+
   $('div[name=withParameters]').on('change', function(e) {
     var $this = $(this);
     var $this_selected = !!$(this).attr('selected');
-
+    var wallhavenSelected = $radioWallhaven.isSelected();
     //value               = parseInt($(this).radioGroup('value'))
     //var isKeywordOption     = $('#radio-specific').isSelected();
-    enabledForWithParams = $('*[data-enabled-for=checkbox-withParameters]')
+    //$enabledForWallhaven = $('*[data-enabled-for=radio-wallhaven]')
+    //$enabledForWithParams = $('*[data-enabled-for=checkbox-withParameters]')
 
     //$searchKeyword.prop('disabled', !isKeywordOption);
-    enabledForWithParams.find('*[data-type=input]')[addRemove[$this_selected]]('disabled', '');
-    enabledForWithParams.find('label[for]')[addRemove[$this_selected]]('disabled', '');
+    $enabledForWithParams.find('*[data-type=input]')[addRemove[wallhavenSelected && $this_selected]]('disabled', '');
+    $enabledForWithParams.find('label[for]')[addRemove[wallhavenSelected && $this_selected]]('disabled', '');
     //if (isKeywordOption) {
     //  $searchKeyword.focus();
     //}
 
 
   });
-
-  $searchKeyword.keyup(function(e) {
-    if (e.which !== 13) {
-      $(this).trigger('change');
-    }
-  })
 
   $('label').click(function() {
     $("#"+$(this).attr('for')).trigger("click");

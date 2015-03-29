@@ -21,7 +21,7 @@ function init() {
 chrome.tabs.onCreated.addListener(function(tab) {
   if (!tab.url.match(/^chrome\:\/\/[^newtab]/)) {
     var secure = !!tab.url.match(/^https\:\/\//);
-    getWallpapers(secure);
+    //getWallpapers(secure);
   }
 });
 

@@ -6,7 +6,7 @@ storageGet(function(storage){
   var wallpapers       = storage.wallpapers;
   var wallpaperBlur    = storage.wallpaperBlur;
   var wallpaperOpacity = storage.wallpaperOpacity;
-  var random_index     = getRandomInt(0, wallpapers.length)
+  var random_index     = getRandomInt(0, wallpapers.length-1)
   var url              = wallpapers[random_index].url
   var display          = {1: "", 0: "none"}[storage.set_bg];
 

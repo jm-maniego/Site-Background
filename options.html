@@ -21,21 +21,31 @@
           <div class="row cf">
             <h3>Search</h3>
           </div>
-          <div name='image_from' data-type='radiogroup' type class="radio-group">
+          <div name='image_from' id="imageFrom" data-type='radiogroup' class="radio-group">
+            <div class="row cf">
+              <div class="column">
+                <div id="radio-file" name="image_from" data-type="input" class="radio"></div>
+              </div>
+              <div class="column">
+                <div>
+                  <label for="radio-file">From local file/s</label>
+                  <input data-enabled-for="radio-file" name="dataUrls" type="file" id="imageFile" multiple>
+                </div>
+              </div>
+            </div>
             <div class="row cf">
               <div class="column">
                 <div id="radio-specific" name="image_from" data-type="input" class="radio"></div>
               </div>
               <div class="column">
                 <div>
-                  <label for="radio-specific">From local file/s or url</label>
-                  <input type="file" id="imageFile" multiple>
+                  <label for="radio-specific">From url</label>
                 </div>
               </div>
             </div>
             <div class="row cf">
               <div class="column w100">
-                <textarea name="specifiedUrl" data-type="input" id="specific-keyword" class="w100" placeholder="Enter file:/// or http:// url"></textarea>
+                <textarea data-enabled-for="radio-specific" name="specifiedUrl" data-type="input" id="specifiedUrl" class="w100" placeholder="Enter file:/// or http:// url"></textarea>
               </div>
             </div>
             <div class="row cf">
@@ -47,7 +57,7 @@
               </div>
             </div>
           </div>
-          <fieldset>
+          <fieldset data-enabled-for="radio-wallhaven">
             <div class="row cf">
               <div class="column">
                 <div id="checkbox-random" name="searchType" data-type="input" class="checkbox"></div>

@@ -10,9 +10,9 @@ var config = {
       "wallpaperOpacity": "40"
     },
     "search": {
-      "searchType": "1",
+      "searchType": "0",
       "withParameters": "1",
-      "image_from": "1"
+      "image_from": "2"
     },
     "set_bg": {
       "set_bg": "1"
@@ -41,7 +41,7 @@ var config = {
 
 function storageGet(callback) {
   console.log("Getting storage...")
-  chrome.storage.sync.get(callback);
+  chrome.storage.sync.get(callback || function(storage){ console.log(storage) });
 }
 
 function storageSet(key, value) {
@@ -69,12 +69,10 @@ function wallpapersUrl(secure, callback) {
 
     switch (image_from_int) {
       case 0:
-        // From File or Url
-        // Check if file:/// or http:///
-        // Convert to data url if file; else leave it alone LOL
-        //specifiedUrl = storage.specifiedUrl
         break;
       case 1:
+        break;
+      case 2:
         // From Wallhaven
         searchType     = parseInt(storage.searchType);
         console.log(searchType);
@@ -111,12 +109,11 @@ function getWallpaperId(url, from) {
 function Wallpaper(id, image_from_int) {
   image_from_int = typeof image_from_int == 'undefined' ? 1 : image_from_int
   switch (image_from_int) {
-    case 0:
-      this.url = id // actually, url LOL
-      break;
-    case 1:
+    case 2:
       this.url = "http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-"+ id +".jpg"
       break;
+    default:
+      this.url = id
   }
 }
 
@@ -131,10 +128,16 @@ function getWallpapers(secure, options) {
     switch (image_from_int) {
       case 0:
         storageSet({"wallpapers": files}, function() {
-          options.success && options.success.call(this)
+          options.complete && options.complete.call(this)
         })
         break;
       case 1:
+        wallpapers.push(new Wallpaper(storage.specifiedUrl))
+        storageSet({"wallpapers": wallpapers}, function() {
+          options.complete && options.complete.call(this)
+        })
+        break;
+      case 2:
         // From Wallhaven
         console.log("Fetching images from wallhaven...")
         wallpapersUrl(secure, function(url) {
@@ -176,7 +179,7 @@ CustomFile.prototype = {
       fileReader.addEventListener('loadend', function(e) {
         console.log("Converting " + file.name + "...");
         self.dataUrls[current_index] = fileReader.result
-        options.convert && options.convert.call(this, fileReader)
+        options.converted && options.converted.call(this, fileReader)
         self.toDataUrl(options, current_index+1)
         if (current_index+1 == self.files.length) {
           console.log("Conversion complete.")
