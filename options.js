@@ -10,6 +10,7 @@ CustomForm.prototype.serialize = function() {
   var $radioButtons    = this.$form.find('div.radio[data-type=input][selected]:not([disabled])');
   var $checkboxButtons = this.$form.find('div.checkbox[data-type=input]:not([disabled])');
   var $textareas       = this.$form.find('textarea[data-type=input]:not([disabled])');
+  var $inputTexts      = this.$form.find('input[type=text]:not([disabled])')
   var $fileInputs      = this.$form.find('input[type=file]:not([disabled])');
   var returnObj        = {}
   var key;
@@ -30,6 +31,11 @@ CustomForm.prototype.serialize = function() {
 
     returnObj[key] = (returnObj[key] || '') + val;
   });
+  $inputTexts.each(function(i, el) {
+    $el = $(el);
+    key = $el.attr('name');
+    returnObj[key] = $el.get(0).value;
+  })
   $textareas.each(function(i, el) {
     $el = $(el);
     key = $el.attr('name');
@@ -105,7 +111,7 @@ $(function() {
       $loader.show();
       $save.attr('disabled', '');
       getWallpapers(false, {
-        files: ($("#radio-specific").isSelected() ? $('#imageFile').get(0).files : []),
+        files: [],
         complete: function() {
           $body.removeClass('overlay')
           $loader.hide();
@@ -183,7 +189,7 @@ $(function() {
     $enabledForWallhaven.find('*[data-type=input]')[addRemove[wallhavenSelected]]('disabled', '');
     $enabledForWallhaven.find('label[for]')[addRemove[wallhavenSelected]]('disabled', '');
     $enabledForSpecific[addRemove[specificSelected]]('disabled', '');
-    $enabledForFile[addRemove[fileSelected]]('disabled', '');
+    // $enabledForFile[addRemove[fileSelected]]('disabled', '');
   })
 
   $('div[name=withParameters]').on('change', function(e) {
@@ -224,7 +230,7 @@ $.fn.radioGroup = function(key) {
   } else {
     var $radioButtons = $(this).find('.radio')
     $radioButtons.each(function(index, el) {
-      $(el).attr('data-value', index);
+      $(el).attr('data-value', $(el).attr('data-value') || index);
     });
     $radioButtons.click(function(e) {
       $(e.target).select();

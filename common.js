@@ -83,7 +83,6 @@ function wallpapersUrl(secure, callback) {
         break;
     }
 
-
     callback && callback.call(this, url);
   })
 }
@@ -107,7 +106,7 @@ function getWallpaperId(url, from) {
 }
 
 function Wallpaper(id, image_from_int) {
-  image_from_int = typeof image_from_int == 'undefined' ? 1 : image_from_int
+  image_from_int = typeof image_from_int == 'undefined' ? parseInt(config.default.search.image_from) : image_from_int
   switch (image_from_int) {
     case 2:
       this.url = "http://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-"+ id +".jpg"

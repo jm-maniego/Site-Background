@@ -9,7 +9,7 @@ storageGet(function(storage){
   var random_index     = getRandomInt(0, wallpapers.length-1)
   var url              = wallpapers[random_index].url
   var display          = {1: "", 0: "none"}[storage.set_bg];
-
+  debugger
   var div = $('<div id="sitebg-extension">').css({
     "width": "100%",
     "height": "100%",

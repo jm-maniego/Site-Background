@@ -6,7 +6,7 @@ html, body {
 
 .container {
   height: 100%;
-  width: 90%;
+  width: 48%;
   margin: auto;
 }
 
@@ -26,7 +26,8 @@ html, body {
 
 .checkbox[disabled],
 .radio[disabled],
-textarea[disabled] {
+textarea[disabled],
+input[type=text][disabled] {
   background-color: #BABABA;
 }
 
@@ -38,7 +39,7 @@ textarea[disabled] {
   background-position: 0 0;
 }
 
-textarea {
+textarea, input[type=text] {
   font-family: inherit;
   font-size: inherit;
   line-height: .7rem;
@@ -63,7 +64,8 @@ label[disabled],
 button[disabled],
 .checkbox[disabled],
 .radio[disabled],
-textarea[disabled] {
+textarea[disabled],
+input[type=text][disabled] {
   cursor: default !important;
   pointer-events: none;
   opacity: 0.4;
