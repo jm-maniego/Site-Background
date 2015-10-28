@@ -95,6 +95,10 @@ textarea[disabled] {
   cursor: default !important;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .centered {
   position: fixed;
   top: 50%;
@@ -152,10 +156,26 @@ fieldset {
 }
 
 img.imageFile {
+  height: auto;
+  width: 45%;
+  min-width: 230px;
   margin-right: 5%;
   margin-bottom: 30px;
 }
 
 .column button {
   width: 80%;
+}
+
+.off50 {
+  margin-left: 50%;
+}
+
+#image-results {
+  margin-top: 80px;
+}
+
+#imagesTitle {
+  position: fixed;
+  background-color: #FAFAFA;
 }

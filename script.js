@@ -33,10 +33,10 @@ storageGet(function(storage){
 chrome.runtime.onMessage.addListener(function(message) {
   var $background = $("#sitebg-extension");
   storageGet(function(storage){
-    var wallpapers = storage.wallpapers;
-    var wallpaperBlur = storage.wallpaperBlur;
+    var wallpapers       = storage.wallpapers;
+    var wallpaperBlur    = storage.wallpaperBlur;
     var wallpaperOpacity = storage.wallpaperOpacity;
-    var display = {1: "", 0: "none"}[storage.set_bg];
+    var display          = {1: "", 0: "none"}[storage.set_bg];
     $background.css({
       "-webkit-filter": "blur("+ wallpaperBlur +"px)",
       "opacity": (wallpaperOpacity/100).toString(),

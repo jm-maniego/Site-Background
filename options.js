@@ -163,13 +163,12 @@ $(function() {
 
         $imageResults.append($("<img>", {
           src: result,
-          height: "auto",
-          width: "20%",
           class: "imageFile"
         }))
       },
       complete: function(dataUrls) {
         $this.data('value', dataUrls);
+        alert("Conversion complete!")
       }
     })
   })
