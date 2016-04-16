@@ -18,7 +18,7 @@ html, body {
 .radio {
   width: 26px;
   height: 26px;
-  background: url("options-spritesheet.png") no-repeat;
+  background: url("../icons/options-spritesheet.png") no-repeat;
   background-size: 200%;
   cursor: pointer;
   background-color: #FDFDFD;

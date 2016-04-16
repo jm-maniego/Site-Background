@@ -3,7 +3,7 @@
 
   "name": "Site Background",
   "description": "Set wallpapers from Wallhaven as background to all sites",
-  "version": "1.3",
+  "version": "2.0",
 
   "permissions": [
     "file:///*",
@@ -14,27 +14,31 @@
   ],
 
   "background": {
-    "scripts": ["jquery-1.11.1.js", "common.js", "background.js"],
+    "scripts": [
+      "js/jquery-1.11.1.js",
+      "src/common.js",
+      "src/bg/background.js"
+    ],
     "persistent": false
   },
 
   "browser_action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/browser_action/popup.html",
     "default_icon": {
-      "19": "logo19.png",
-      "32": "logo32.png",
-      "48": "logo48.png",
-      "64": "logo64.png",
-      "128": "logo128.png"
+      "19": "icons/logo19.png",
+      "32": "icons/logo32.png",
+      "48": "icons/logo48.png",
+      "64": "icons/logo64.png",
+      "128": "icons/logo128.png"
     }
   },
 
-  "options_page": "options.html",
+  "options_page": "src/options.html",
 
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["jquery-1.11.1.js", "common.js", "script.js"]
+      "js": ["js/jquery-1.11.1.js", "src/common.js", "src/inject/script.js"]
     }
   ]
 }

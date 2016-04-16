@@ -36,7 +36,7 @@ body {
 }
 
 #optionsBtn {
-  background: url('options.png') no-repeat;
+  background: url('/icons/options.png') no-repeat;
   background-size: cover;
   width: 1.7rem;
   height: 1.7rem;
